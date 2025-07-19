@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function Square({ value, onSquareClick }:{ value: string | null; onSquareClick: () => void }) {
+export function Square({ value, onSquareClick }:{ value: string | null; onSquareClick: () => void }) {
   return (
     <button className="square" onClick={onSquareClick}>
       {value}
@@ -8,27 +8,18 @@ function Square({ value, onSquareClick }:{ value: string | null; onSquareClick: 
   );
 }
 
-function Board({ xIsNext, squares, onPlay }:{ xIsNext: boolean; squares: (string | null)[]; onPlay: (nextSquares: (string | null)[]) => void }) {
+export function Board({ xIsNext, squares, onPlay }:{ xIsNext: boolean; squares: (string | null)[]; onPlay: (nextSquares: (string | null)[]) => void }) {
   function handleClick(i: number) {
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
     const nextSquares = squares.slice();
-    if (xIsNext) {
-      nextSquares[i] = 'X';
-    } else {
-      nextSquares[i] = 'O';
-    }
+    nextSquares[i] = xIsNext ? 'X' : 'O';
     onPlay(nextSquares);
   }
 
   const winner = calculateWinner(squares);
-  let status;
-  if (winner) {
-    status = 'Winner: ' + winner;
-  } else {
-    status = 'Next player: ' + (xIsNext ? 'X' : 'O');
-  }
+  const status = winner ? `Winner: ${winner}` : `Next player: ${xIsNext ? 'X' : 'O'}`;
 
   return (
     <>
@@ -52,7 +43,7 @@ function Board({ xIsNext, squares, onPlay }:{ xIsNext: boolean; squares: (string
   );
 }
 
-export default function Game() {
+export function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
@@ -68,7 +59,7 @@ export default function Game() {
     setCurrentMove(nextMove);
   }
 
-  const moves = history.map((squares, move) => {
+  const moves = history.map((_, move) => {
     let description;
     if (move > 0) {
       description = 'Go to move #' + move;
