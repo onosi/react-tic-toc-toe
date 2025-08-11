@@ -1,7 +1,7 @@
 import { Game } from "../App";
 import type { StoryObj } from "@storybook/react-vite";
 import { expect, within, userEvent } from "storybook/test";
-import "@testing-library/jest-dom";
+import "@testing-library/jest-dom/vitest";
 
 const meta = {
   title: "component/Game",
